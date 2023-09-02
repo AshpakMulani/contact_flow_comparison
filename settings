@@ -1,0 +1,3 @@
+{
+    "IGNORE_TAG" : ["entryPointPosition","position","isFriendlyName"]
+}

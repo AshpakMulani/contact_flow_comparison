@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <script src="./json-viewer.js"></script>
+    <script src="./flow-compare.js"></script>
+    <link href="./json-viewer.css" type="text/css" rel="stylesheet">
+    <link href="./stylesheet.css" type="text/css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="top-container">
+            <div class="left">
+                <label class="source-label">Original contact flow</label>
+                <input type="file" id="fileInput1" accept="" onchange="displayJson('fileInput1', 'source')">
+                
+            <br>            
+            <hr>
+            <div id="source"> </div>
+            </div>
+            <div class="right">
+                <label class="source-label">Updated contact flow</label>
+                <input type="file" id="fileInput2" accept="" onchange="displayJson('fileInput2', 'target')">
+                <br>
+               
+                <hr>
+                <div id="target"></div>
+            </div>
+        </div>
+        <div class="bottom-container">
+            <label class="diff-label">Difference </label>
+            <button type="button" onclick="compare()">Compare</button>
+            <label id="resultlabel"></label>
+            <hr>
+            
+        </div>
+    </div>
+
+
+
+    
+
+   
+
+  
+
+  
+    
+    
+    
+    <script>
+
+        
+        var originalFileContent = null
+        var updatedFileContent = null
+
+        function compare(){
+
+            /*
+            const originalFile = document.getElementById("fileInput1");
+            const updatedFile = document.getElementById("fileInput2");
+            const resultlabel = document.getElementById("resultlabel");
+
+            var originalFileContent = null
+            var targetFileContent = null
+            
+            
+            const sourceFile = originalFile.files[0];
+            const targetFile = updatedFile.files[0];
+
+            const sourcereader = new FileReader();
+            sourcereader.readAsText(sourceFile);
+            sourcereader.onload = function() {                
+                try {
+                    const originalFileContent = JSON.parse(sourcereader.result); 
+                  
+           
+                                        
+                   
+                } catch (error) {
+                    resultlabel.textContent = "Error parsing JSON: " + error.message;
+                }
+            }
+
+
+            const targetreader = new FileReader();
+            targetreader.readAsText(targetFile);
+            targetreader.onload = function() {                
+                try {
+                    const targetFileContent = JSON.parse(targetreader.result);                                        
+                                          
+                   
+                } catch (error) {
+                    resultlabel.textContent = "Error parsing JSON: " + error.message;
+                }    
+
+            }
+
+            */
+                        
+            flowCompare(originalFileContent,updatedFileContent)      
+            
+
+           // flowCompare(originalFileContent,targetFileContent)
+                
+        }
+
+
+
+        function displayJson(inputId, outputId) {
+            const fileInput = document.getElementById(inputId);
+            const outputBox = document.getElementById(outputId);
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                const fileContent = reader.result;
+                try {
+                    const parsedContent = JSON.parse(fileContent);          
+                    if (inputId == 'fileInput1'){
+                        originalFileContent = parsedContent
+
+                    }else{
+                        updatedFileContent = parsedContent
+
+                    }
+                    outputBox.innerHTML = jsonViewer(parsedContent, true);
+                    
+                   
+                } catch (error) {
+                    outputBox.textContent = "Error parsing JSON: " + error.message;
+                }
+            }
+
+            if (file) {
+                reader.readAsText(file);
+            } else {
+                outputBox.textContent = "No file selected.";
+            }
+        }
+    </script>
+</body>
+</html>
