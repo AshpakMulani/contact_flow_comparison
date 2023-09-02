@@ -176,7 +176,7 @@ function cleanObject(obj){
   //const conf = JSON.parse(readFile('./settings').toString())
 
 
-  const conf = { "IGNORE_TAG" : ["entryPointPosition","position","isFriendlyName"] }
+  const conf = { "IGNORE_TAG" : ["entryPointPosition","position","isFriendlyName","conditionMetadata"] }
 
 
 
@@ -215,6 +215,42 @@ function isObjectEmpty(obj) {
   }
 
 
+  function prepareFinalObject(UMObjects,AMObjects,DMObjects,UObjects,AObjects,DObjects){
+
+    var finalObject = {
+      "Metadata": [],
+      "Actions": []
+    }
+
+    if(! isObjectEmpty(UMObjects)){
+      finalObject.Metadata.push(UMObjects)
+    }
+
+    if(! isObjectEmpty(AMObjects)){
+      finalObject.Metadata.push(AMObjects)
+    }
+
+    if(! isObjectEmpty(DMObjects)){
+      finalObject.Metadata.push(DMObjects)
+    }
+
+    if(! isObjectEmpty(UObjects)){
+      finalObject.Actions.push(UObjects)
+    }
+
+    if(! isObjectEmpty(AObjects)){
+      finalObject.Actions.push(AObjects)
+    }
+
+    if(! isObjectEmpty(DObjects)){
+      finalObject.Actions.push(DObjects)
+    }
+
+
+    return finalObject
+
+  }
+
 
 
   //==================================$$$$$====================================
@@ -223,7 +259,7 @@ function isObjectEmpty(obj) {
   //=============================$$============$$===============================
   //============================$$===============$$============================
 
-  function flowCompare(oldFlow, newFlow){ 
+function flowCompare(oldFlow, newFlow){ 
 
 
   var updatedObjects = []
@@ -233,6 +269,8 @@ function isObjectEmpty(obj) {
   var updatedMetadataObjects = []
   var deletedMetadataObjects = []
   var addedMetadataObjects = []
+
+  var finalDiffObject = null
 
 
 
@@ -305,17 +343,23 @@ function isObjectEmpty(obj) {
   }
 
 
-  prepareFinalObject(
+  finalDiffObject = prepareFinalObject(
       updatedMetadataObjects,
       addedMetadataObjects,
+      deletedMetadataObjects,
       updatedObjects,
-      addedObjects
+      addedObjects,
+      deletedObjects
+      );
 
-      )
+
+  const diffBox = document.getElementById('diffBox');
+  
+  diffBox.innerHTML = jsonViewer(finalDiffObject, true)
 
 
-
- 
+  console.log("=============  final object ================")
+  console.log(JSON.stringify(finalDiffObject,null,2))
 
   console.log("=============  updated action blocks ================")
   console.log(JSON.stringify(updatedObjects,null,2))
