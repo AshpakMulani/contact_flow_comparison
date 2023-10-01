@@ -317,7 +317,6 @@ function flowCompare(oldFlow, newFlow){
   }
   
 
-
 /*
 
 ======= display object structure =========
