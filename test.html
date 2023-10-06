@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Custom Element with Scrollable Body in JointJS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.5.0/joint.css">
+</head>
+<body>
+  <div id="paper"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.5.0/joint.min.js"></script>
+
+  <script>
+    // Create a JointJS graph and paper
+    const graph = new joint.dia.Graph();
+    const paper = new joint.dia.Paper({
+      el: document.getElementById('paper'),
+      width: 800,
+      height: 400,
+      gridSize: 10,
+      model: graph,
+    });
+
+    // Create a custom element with a rectangle and scrollable body
+    const customRect = new joint.shapes.basic.Rect({
+      position: { x: 100, y: 100 },
+      size: { width: 200, height: 120 },
+      attrs: {
+        rect: {
+          fill: 'lightblue',
+          stroke: 'black',
+          'stroke-width': 2,
+        },
+        text: {
+          text: 'Custom Element',
+          fill: 'black',
+          'font-size': 12,
+          'ref-x': 5,
+          'ref-y': 5,
+          'y-alignment': 'middle',
+          'x-alignment': 'left',
+        },
+      },
+    });
+
+    // Create a foreignObject for the scrollable body
+    const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+    foreignObject.setAttribute('width', '100%');
+    foreignObject.setAttribute('height', '100%');
+
+    const bodyDiv = document.createElement('div');
+    bodyDiv.style.overflow = 'auto';
+    bodyDiv.style.width = '100%';
+    bodyDiv.style.height = '100%';
+    bodyDiv.innerText = 'Scrollable Body Content';
+
+    foreignObject.appendChild(bodyDiv);
+
+    // Add the foreignObject to the custom element
+    customRect.attr('foreignObject', foreignObject);
+
+    // Add the custom element to the graph
+    graph.addCell(customRect);
+  </script>
+</body>
+</html>

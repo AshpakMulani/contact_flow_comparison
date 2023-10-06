@@ -210,13 +210,15 @@ function isObjectEmpty(obj) {
 
 
       if(! isObjectEmpty(metadataDiff)){
-        retObj.push({"Id":IdentifierList[blockid],"metadata": newObjMetadata , "metadataDiff":metadataDiff})
+        retObj.push({"id":IdentifierList[blockid],"metadata": newObjMetadata , "metadataDiff":metadataDiff})
       }
 
       if(! isObjectEmpty(actionDiff)){
-        retObj.push({"Id":IdentifierList[blockid], "action":newObjAction, "actionDiff":actionDiff})
+        retObj.push({"id":IdentifierList[blockid], "action":newObjAction, "actionDiff":actionDiff})
       }
     }    
+
+     
 
 
     return retObj
@@ -228,6 +230,7 @@ function isObjectEmpty(obj) {
 
     var retObj = {}     
 
+    retObj.id = blockid
     retObj.state = state
 
     ret = findObjectWithKey(data, blockid)
@@ -269,7 +272,7 @@ function flowCompare(oldFlow, newFlow){
   addedBlocks = getAddedBlocks(oldIdentifierList, newIdentifierList)
   // newly added block info will be present in new contact flow so passing 'newData'
   for(blockid in addedBlocks){    
-    uiAddedBlocks.push = prepareUIBlocks(addedBlocks[blockid],newData, "added")
+    uiAddedBlocks.push(prepareUIBlocks(addedBlocks[blockid],newData, "added"))
   }  
 
   // using getAddedBlock function in reverse way to find what blocks are present in 
@@ -277,7 +280,7 @@ function flowCompare(oldFlow, newFlow){
   removedBlocks = getAddedBlocks(newIdentifierList,oldIdentifierList)
   // deleted block info will be present in old contact flow so passing 'oldData'
   for(blockid in removedBlocks){
-    uiRemovedBlocks.push = prepareUIBlocks(removedBlocks[blockid],oldData, "removed")
+    uiRemovedBlocks.push(prepareUIBlocks(removedBlocks[blockid],oldData, "removed"))
   }
   
  
@@ -301,13 +304,20 @@ function flowCompare(oldFlow, newFlow){
 
   updatedBlocks = getUpdatedBlocks(newIdentifierList,newData,oldData)
 
+  
+
   for(blockid in updatedBlocks){
-    uiUpdatedBlocks.push = prepareUIBlocks(updatedBlocks[blockid],
+   // console.log(updatedBlocks[blockid].id)
+    //console.log(updatedBlocks[blockid].metadataDiff)
+    //console.log(updatedBlocks[blockid].actionDiff)
+    uiUpdatedBlocks.push(prepareUIBlocks(updatedBlocks[blockid].id,
                                             newData, 
                                             "updated",
                                             updatedBlocks[blockid].metadataDiff,
                                             updatedBlocks[blockid].actionDiff
-                                            )
+                                            ))
+    
+    //console.log(uiUpdatedBlocks)      
   }
   
   console.log(uiAddedBlocks)

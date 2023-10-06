@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JointJS Example</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.5.0/joint.css" />
+</head>
+<body>
+  <div id="paper"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.5.0/joint.min.js"></script>
+
+  <script>
+    const { dia, shapes } = joint;
+
+
+    function fitPaperToScreen() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      paper.setDimensions(width, height);
+    }
+
+    const paper = new dia.Paper({
+      el: document.getElementById('paper'),
+      width: 100,
+      height: 100,
+      gridSize: 10,
+      model: new dia.Graph(),
+    });
+
+    // Create three rectangles
+    const rect1 = new shapes.standard.Rectangle();
+    rect1.position(100, 100);
+    rect1.resize(150, 100);
+    rect1.attr({
+      body: {
+        fill: 'lightgray',
+        rx: 10,
+        ry: 10,
+      },
+      label: {
+        text: 'start',
+        fill: 'black',
+      },
+    });
+
+    const rect2 = new shapes.standard.Rectangle();
+    rect2.position(400, 100);
+    rect2.resize(150, 100);
+    rect2.attr({
+      body: {
+        fill: 'lightgreen',
+        rx: 10,
+        ry: 10,
+      },
+      label: {
+        text: 'check contact attribute',
+        fill: 'black',
+      },
+    });
+
+    const rect3 = new shapes.standard.Rectangle();
+    rect3.position(600, 300);
+    rect3.resize(150, 100);
+    rect3.attr({
+      body: {
+        fill: 'orange',
+        rx: 10,
+        ry: 10,
+      },
+      label: {
+        text: 'play prompt',
+        fill: 'black',
+      },
+    });
+
+
+
+    
+    const rect4 = new shapes.standard.Rectangle();
+    rect4.position(1100, 250);
+    rect4.resize(150, 100);
+    rect4.attr({
+      body: {
+        fill: 'lightgray',
+        rx: 10,
+        ry: 10,
+      },
+      label: {
+        text: 'Disconnect',
+        fill: 'black',
+      },
+    });
+
+
+
+    const rect5 = new shapes.standard.Rectangle();
+    rect5.position(900, 400);
+    rect5.resize(150, 100);
+    rect5.attr({
+      body: {
+        fill: 'red',
+        rx: 10,
+        ry: 10,
+      },
+      label: {
+        text: 'get customer input',
+        fill: 'black',
+      },
+    });
+
+
+    // Add scrollable text to the rectangles using foreignObject
+    const createForeignObject = (content) => {
+      return `<div xmlns="http://www.w3.org/1999/xhtml">${content}</div>`;
+    };
+
+    const textContent1 = createForeignObject(
+      '<p>This is the scrollable text content for Rectangle 1.</p>'
+    );
+
+    const htmlcontent = `
+    <foreignObject>
+    <!--
+      In the context of SVG embedded in an HTML document, the XHTML
+      namespace could be omitted, but it is mandatory in the
+      context of an SVG document
+    -->
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis mollis
+      mi ut ultricies. Nullam magna ipsum, porta vel dui convallis, rutrum
+      imperdiet eros. Aliquam erat volutpat.
+    </div>
+  </foreignObject>
+`;
+    
+
+
+    const textContent2 = createForeignObject(
+      '<p>This is the scrollable text content for Rectangle 2.</p>'
+    );
+    const textContent3 = createForeignObject(
+      '<p>This is the scrollable text content for Rectangle 3.</p>'
+    );
+
+    rect1.attr('label', { body: htmlcontent });
+    rect2.attr('label', { body: {text: textContent2} });
+    rect3.attr('label', { body: {text: textContent3} });
+
+    // Create links between the rectangles with straight arrows and rounded corners
+    const link1 = new shapes.standard.Link();
+    link1.source(rect1);
+    link1.target(rect2);
+    link1.connector({ name: 'smooth' });
+    link1.attr({
+      line: {
+        stroke: 'green',
+        strokeWidth: 1,
+        sourceMarker: {
+            type: 'circle', // Circle marker
+            fill: 'gray',    // Circle fill color
+            r: 3,           // Circle radius
+            },
+      
+      },
+     
+    });
+
+    const link2 = new shapes.standard.Link();
+    link2.source(rect1);
+    link2.target(rect3);
+    link2.connector({ name: 'smooth' });
+    link2.attr({
+        line: {
+        stroke: 'lightgray',
+        strokeWidth: 1,
+        sourceMarker: {
+            type: 'circle', // Circle marker
+            fill: 'gray',    // Circle fill color
+            r: 3,           // Circle radius
+            },
+      
+      },
+    });
+
+
+    const link3 = new shapes.standard.Link();
+    link3.source(rect3);
+    link3.target(rect4);
+    link3.connector({ name: 'smooth' });
+    link3.attr({
+        line: {
+        stroke: 'green',
+        strokeWidth: 1,
+        sourceMarker: {
+            type: 'circle', // Circle marker
+            fill: 'gray',    // Circle fill color
+            r: 3,           // Circle radius
+            },
+      
+      },
+    });
+
+
+
+    const link4 = new shapes.standard.Link();
+    link4.source(rect5);
+    link4.target(rect4);
+    link4.connector({ name: 'smooth' });
+    link4.attr({
+        line: {
+        stroke: 'red',
+        strokeWidth: 1,
+        sourceMarker: {
+            type: 'circle', // Circle marker
+            fill: 'gray',    // Circle fill color
+            r: 3,           // Circle radius
+            },
+      
+      },
+    });
+
+
+
+    const link5 = new shapes.standard.Link();
+    link5.source(rect2);
+    link5.target(rect3);
+    link5.connector({ name: 'smooth' });
+    link5.attr({
+        line: {
+        stroke: 'green',
+        strokeWidth: 1,
+        sourceMarker: {
+            type: 'circle', // Circle marker
+            fill: 'gray',    // Circle fill color
+            r: 3,           // Circle radius
+            },
+      
+      },
+    });
+    
+
+    const link6 = new shapes.standard.Link();
+    link6.source(rect3);
+    link6.target(rect5);
+    link6.connector({ name: 'smooth' });
+    link6.attr({
+        line: {
+        stroke: 'red',
+        strokeWidth: 1,
+        sourceMarker: {
+            type: 'circle', // Circle marker
+            fill: 'gray',    // Circle fill color
+            r: 3,           // Circle radius
+            },
+      
+      },
+    });
+
+
+    // Add elements to the graph
+    const graph = paper.model;
+    graph.addCell([rect1, rect2, rect3, rect4, rect5, link1, link2, link3, link4, link5, link6]);
+
+    fitPaperToScreen();
+  </script>
+</body>
+</html>

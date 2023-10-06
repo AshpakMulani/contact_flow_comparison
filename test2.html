@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jsPlumb Flow Diagram Example</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsplumb/2.15.6/js/jsplumb.min.js"></script>
+  <style>
+    /* Define styles for rectangles */
+    .flow-rectangle {
+      width: 200px;
+      height: 200px;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f0f0f0;
+      position: absolute; /* Updated to absolute positioning */
+    }
+
+    /* Style the header of each rectangle */
+    .rectangle-header {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+    }
+
+    /* Style the body of each rectangle to make it scrollable */
+    .rectangle-body {
+      overflow-y: auto;
+      height: 100px; /* Adjust the height as needed */
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="flow-rectangle" id="rectangle1">
+    <div class="rectangle-header">Rectangle 1</div>
+    <div class="rectangle-body">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non dui nec nunc dignissim tristique.</p>
+      <!-- Add more content here -->
+    </div>
+  </div>
+
+  <div class="flow-rectangle" id="rectangle2">
+    <div class="rectangle-header">Rectangle 2</div>
+    <div class="rectangle-body">
+      <p>Phasellus ut elit eget justo commodo tincidunt vel at ligula.</p>
+      <!-- Add more content here -->
+    </div>
+  </div>
+
+  <div class="flow-rectangle" id="rectangle3">
+    <div class="rectangle-header">Rectangle 3</div>
+    <div class="rectangle-body">
+      <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus viverra justo in cursus pellentesque.</p>
+      <!-- Add more content here -->
+    </div>
+  </div>
+
+  <script>
+    jsPlumb.ready(function () {
+      // Initialize jsPlumb
+      jsPlumb.setContainer(document.body);
+
+      // Make rectangles draggable
+      jsPlumb.draggable(document.querySelectorAll(".flow-rectangle"));
+
+      // Configure connection between Rectangle 1 and Rectangle 2
+      jsPlumb.connect({
+        source: "rectangle1",
+        target: "rectangle2",
+        anchors: ["Right", "Left"],
+        endpoint: "Blank",
+        paintStyle: { stroke: "#333", strokeWidth: 2 },
+        overlays: [
+          ["Arrow", { width: 10, length: 10, location: 1, id: "arrow" }]
+        ]
+      });
+
+      // Configure connection between Rectangle 1 and Rectangle 3
+      jsPlumb.connect({
+        source: "rectangle1",
+        target: "rectangle3",
+        anchors: ["Bottom", "Top"],
+        endpoint: "Blank",
+        paintStyle: { stroke: "#333", strokeWidth: 2 },
+        overlays: [
+          ["Arrow", { width: 10, length: 10, location: 1, id: "arrow" }]
+        ]
+      });
+    });
+  </script>
+</body>
+</html>
