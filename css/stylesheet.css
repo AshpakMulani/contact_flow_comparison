@@ -43,7 +43,7 @@ body, html {
     flex: 1;
     display: flex;
     flex-direction: row;
-    height: 60%;
+    height: 30%;
 }
 
 .left, .right {
@@ -54,7 +54,7 @@ body, html {
 }
 
 .bottom-container {
-    height: 40%;
+    height: 70%;
     padding: 20px;
     overflow: auto;
     border: 1px solid #ccc;

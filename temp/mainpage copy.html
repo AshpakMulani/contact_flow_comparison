@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>   
- 
+<head>
     
-    <link href="./css/json-viewer.css" type="text/css" rel="stylesheet">
-    <link href="./css/stylesheet.css" type="text/css" rel="stylesheet">
+    <script src="./json-viewer.js"></script>
+    <script src="./flow-compare.js"></script>
+    <link href="./json-viewer.css" type="text/css" rel="stylesheet">
+    <link href="./stylesheet.css" type="text/css" rel="stylesheet">
 
 
     <script src="./js/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.5.0/joint.min.js"></script>
-
- 
+  
 
 </head>
 <body>
@@ -42,11 +42,7 @@
             <label id="resultlabel"></label>
             <hr>
 
-            <div id="diffBox">
-                
-            </div>
-
-           
+            <div id="diffBox"></div>
 
           
             
@@ -54,27 +50,64 @@
     </div> 
 
   
-<script src="./json-viewer.js"></script>
-<script src="./flow-compare.js"></script>
-<script src="./flow_ui/block_plotter.js"></script>
     
     
     
-    <script>            
+    <script>      
+
         
         var originalFileContent = null
         var updatedFileContent = null
 
-        function compare(){         
-                        
-            compareResults = flowCompare(originalFileContent,updatedFileContent)
+        function compare(){
+
+            /*
+            const originalFile = document.getElementById("fileInput1");
+            const updatedFile = document.getElementById("fileInput2");
+            const resultlabel = document.getElementById("resultlabel");
+
+            var originalFileContent = null
+            var targetFileContent = null
             
-            for(block in compareResults){
-                if(block != undefined){
-                   drawDiff(compareResults[block])
-               }
+            
+            const sourceFile = originalFile.files[0];
+            const targetFile = updatedFile.files[0];
+
+            const sourcereader = new FileReader();
+            sourcereader.readAsText(sourceFile);
+            sourcereader.onload = function() {                
+                try {
+                    const originalFileContent = JSON.parse(sourcereader.result); 
+                  
+           
+                                        
+                   
+                } catch (error) {
+                    resultlabel.textContent = "Error parsing JSON: " + error.message;
+                }
             }
-               
+
+
+            const targetreader = new FileReader();
+            targetreader.readAsText(targetFile);
+            targetreader.onload = function() {                
+                try {
+                    const targetFileContent = JSON.parse(targetreader.result);                                        
+                                          
+                   
+                } catch (error) {
+                    resultlabel.textContent = "Error parsing JSON: " + error.message;
+                }    
+
+            }
+
+            */
+                        
+            flowCompare(originalFileContent,updatedFileContent)      
+            
+
+           // flowCompare(originalFileContent,targetFileContent)
+                
         }
 
 

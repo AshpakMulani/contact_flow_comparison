@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Custom Headered Rectangle in JointJS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.0/joint.min.css">
+</head>
+<body>
+  <div id="paper"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.6.0/joint.min.js"></script>
+
+  <script>
+
+      // Create a JointJS graph and paper
+      const graph = new joint.dia.Graph();
+    const paper = new joint.dia.Paper({
+      el: document.getElementById('paper'),
+      width: 1000,
+      height: 900,
+      gridSize: 10,
+      model: graph,
+    });
+
+// Create a rectangle element without a border
+const rect = new joint.shapes.standard.Rectangle({
+  position: { x: 50, y: 50 },
+  size: { width: 200, height: 100 },
+  attrs: {
+    rect: {
+      fill: 'lightblue', // Fill color
+      stroke: 'none',    // Set stroke to 'none' to remove the border
+    },
+    text: {
+      text: 'Rectangle without Border',
+      fill: 'black',
+      'font-size': 12,
+      'ref-x': 0.5,
+      'ref-y': 0.5,
+      'y-alignment': 'middle',
+      'x-alignment': 'middle',
+    },
+  },
+});
+
+// Add the rectangle to the graph
+graph.addCell(rect);
+
+
+
+  </script>
+</body>
+</html>
